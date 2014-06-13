@@ -49,7 +49,6 @@ def get_prime(number):
 		if is_prime(i):
 			prime.append(i)
 		i+=1
-	i = 2
 	
 	return prime
 
@@ -85,11 +84,7 @@ def smallest_multiple2(number):
 
 print factorial(3)
 print smallest_multiple(6)
-print "7:",is_prime(7)
-print "8:",is_prime(8)
-print "18:",is_prime(18)
-print "19:",is_prime(19)
-print get_prime(20)
-
 print smallest_multiple2(20)
+print "prime", get_prime(9999)
+
 	
