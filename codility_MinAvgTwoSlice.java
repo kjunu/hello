@@ -27,44 +27,37 @@ class Solution {
         
         int cur_cand = 0;
         cands[cur_cand] = new cand(0,A[0],A[1]);
+        double cut_head_avg;
+        double all_avg;
+        double new_avg;
         for (int i = 2 ; i < A.length ; i ++) {
-            if(cands[cur_cand].avg > A[i] && cands[cur_cand].avg < A[i-1]+A[i]/2.0) {
-                double exp_avg = (cands[cur_cand].total + A[i])/((cands[cur_cand].count+1)* 1.0);
-                double cut_head_avg = (cands[cur_cand].total + A[i] - A[cands[cur_cand].start])/(cands[cur_cand].count)* 1.0;
-                //System.out.println("i,cur_cand;"+i+","+cur_cand);
-                //System.out.println("exp_avg,cut_head_avg;"+exp_avg+","+cut_head_avg);
-                if(exp_avg > cut_head_avg && cands[cur_cand].count >  1 ){
-                    cands[cur_cand].total -= A[cands[cur_cand].start];                   
-                    cands[cur_cand].start++;
-                    cands[cur_cand].count--;
-                }
-                cands[cur_cand].end = i;
-                cands[cur_cand].total+=A[i];
-                cands[cur_cand].count++;
-                cands[cur_cand].avg = cands[cur_cand].total / (cands[cur_cand].count * 1.0);
-                /*
-                System.out.println("i,cur_cand;"+i+","+cur_cand);
-            System.out.println("cand.avg;"+cands[cur_cand].avg);
-            System.out.println("cand.start;"+cands[cur_cand].start);
-            System.out.println("cand.end;"+cands[cur_cand].end);
-            System.out.println("cand.count;"+cands[cur_cand].count);
-            System.out.println("cand.total;"+cands[cur_cand].total);
-            System.out.println("-----");
-            */
-            } else {
+            all_avg = (cands[cur_cand].total+A[i])/(1.0*cands[cur_cand].count+1);
+            cut_head_avg = (1.0*cands[cur_cand].total+A[i]-A[cands[cur_cand].start])/(1.0*cands[cur_cand].count);
+            new_avg = (A[i-1]+A[i])/2.0;
+            //System.out.println("all_avg;"+all_avg);
+            //System.out.println("cut_head_avg;"+cut_head_avg);
+            //System.out.println("new_avg;"+new_avg);
+            if (cands[cur_cand].avg < A[i]|| new_avg < all_avg && new_avg < cut_head_avg) {
                 cur_cand++;
-                try{
                 cands[cur_cand] = new cand(i-1,A[i-1],A[i]);
-                //i++;
-                }catch (Exception e) {
-                    //System.out.println("Exception.cur_cand;"+cur_cand);
-                    cur_cand--;
-                }
-            }            
+                continue;
+            }
+            if(all_avg > cut_head_avg) {
+               cands[cur_cand].total = cands[cur_cand].total+A[i]-A[cands[cur_cand].start];
+               cands[cur_cand].avg = cut_head_avg;
+               cands[cur_cand].start ++;
+               cands[cur_cand].end = i;
+            } else {
+                cands[cur_cand].total += A[i];
+               cands[cur_cand].avg = all_avg;
+               cands[cur_cand].count ++;
+               cands[cur_cand].end = i;
+            }
+            
         }
         int answer = cur_cand;
         for (int i = cur_cand ; i >= 0 ; i --) {
-            /*
+                    /*
             System.out.println("i;"+i);
             System.out.println("cand.avg;"+cands[i].avg);
             System.out.println("cand.start;"+cands[i].start);
@@ -86,5 +79,5 @@ class Solution {
         System.out.println("cand.total;"+cands[answer].total);
         */
         return cands[answer].start;
+        }
     }
-}
