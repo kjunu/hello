@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 	namespace po = boost::program_options;
 
-#define BUF_SIZE 4096
+#define BUF_SIZE 256
 	char buf[BUF_SIZE] = {0,};
 	size_t recv_byte = 0;
 	unsigned int priority = 0;
@@ -37,11 +37,19 @@ int main(int argc, char* argv[])
 			return 0;
 		}
 		
-		message_queue mq( open_only, MQ_NAME);
-		mq.send((void*)&qry, sizeof(qry), 0);
-		mq.receive(buf, BUF_SIZE, recv_byte, priority);
-		if ( recv_byte != BUF_SIZE )
-			throw 1;	
+		message_queue req_mq( open_only, MQ_TO_SERVER);
+		message_queue res_mq( open_only, MQ_TO_CLIENT);
+		req_mq.send((void*)&qry, sizeof(qry), 0);
+		while(1) {
+			if(res_mq.get_num_msg() > 0) {
+				res_mq.receive(buf, BUF_SIZE, recv_byte, priority);
+				if ( recv_byte > BUF_SIZE ) {
+					cout << "recved byte : "<< recv_byte << endl;
+					throw 1;
+				}
+				break;
+			}
+		}
 		cout << buf << endl;
 	
 	}
