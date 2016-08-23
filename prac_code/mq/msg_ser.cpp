@@ -12,6 +12,7 @@ void handle_msgqueue_server()
 	size_t recved;
 
 	message_queue::remove(MQ_TO_SERVER);
+	message_queue::remove(MQ_TO_CLIENT);
 	message_queue req_mq( open_or_create, MQ_TO_SERVER, 100, 256);
 	message_queue res_mq( open_or_create, MQ_TO_CLIENT, 100, 256);
 
