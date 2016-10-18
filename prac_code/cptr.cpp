@@ -51,7 +51,8 @@ int main(int argc, char* argv[])
 
 	cout << american.str() << endl; 
 	cout << english.str() << endl; 
-
+		
+	cout << dec << 0x123 << endl;
 	return 0;
 }
 
