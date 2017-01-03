@@ -6,9 +6,12 @@
 //std::atomic<long long> data;
 boost::atomic<int> data;
 bool exchanged = false;
-static const int create= 1;
-static const int complete= 20;
-static const int post_complete= 30;
+//static const int create= 1;
+//static const int complete= 20;
+//static const int post_complete= 30;
+static int create= 1;
+static int complete= 20;
+static int post_complete= 30;
 void do_work()
 {
 	//data.fetch_add(1, std::memory_order_relaxed);
@@ -22,7 +25,8 @@ void do_work()
 		<< ",post_complete:" << post_complete 
 		<< ",exchanged:" << exchanged 
 		<< std::endl;
-	exchanged = data.compare_exchange_strong(complete_local, post_complete);	
+	//exchanged = data.compare_exchange_strong(complete_local, post_complete);	
+	exchanged = data.compare_exchange_weak(complete, post_complete);	
 	if (exchanged) {
 		std::cout << "***************************changed:" << data << '\n';
 	}
