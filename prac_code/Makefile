@@ -111,56 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lock
+# Target rules for targets named server_echo
 
 # Build rule for target.
-lock: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lock
-.PHONY : lock
+server_echo: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 server_echo
+.PHONY : server_echo
 
 # fast build rule for target.
-lock/fast:
-	$(MAKE) -f CMakeFiles/lock.dir/build.make CMakeFiles/lock.dir/build
-.PHONY : lock/fast
-
-#=============================================================================
-# Target rules for targets named atomic
-
-# Build rule for target.
-atomic: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 atomic
-.PHONY : atomic
-
-# fast build rule for target.
-atomic/fast:
-	$(MAKE) -f CMakeFiles/atomic.dir/build.make CMakeFiles/atomic.dir/build
-.PHONY : atomic/fast
-
-#=============================================================================
-# Target rules for targets named cptr
-
-# Build rule for target.
-cptr: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 cptr
-.PHONY : cptr
-
-# fast build rule for target.
-cptr/fast:
-	$(MAKE) -f CMakeFiles/cptr.dir/build.make CMakeFiles/cptr.dir/build
-.PHONY : cptr/fast
-
-#=============================================================================
-# Target rules for targets named timer
-
-# Build rule for target.
-timer: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 timer
-.PHONY : timer
-
-# fast build rule for target.
-timer/fast:
-	$(MAKE) -f CMakeFiles/timer.dir/build.make CMakeFiles/timer.dir/build
-.PHONY : timer/fast
+server_echo/fast:
+	$(MAKE) -f CMakeFiles/server_echo.dir/build.make CMakeFiles/server_echo.dir/build
+.PHONY : server_echo/fast
 
 #=============================================================================
 # Target rules for targets named prac
@@ -176,6 +137,45 @@ prac/fast:
 .PHONY : prac/fast
 
 #=============================================================================
+# Target rules for targets named ntimer
+
+# Build rule for target.
+ntimer: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ntimer
+.PHONY : ntimer
+
+# fast build rule for target.
+ntimer/fast:
+	$(MAKE) -f CMakeFiles/ntimer.dir/build.make CMakeFiles/ntimer.dir/build
+.PHONY : ntimer/fast
+
+#=============================================================================
+# Target rules for targets named timer
+
+# Build rule for target.
+timer: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 timer
+.PHONY : timer
+
+# fast build rule for target.
+timer/fast:
+	$(MAKE) -f CMakeFiles/timer.dir/build.make CMakeFiles/timer.dir/build
+.PHONY : timer/fast
+
+#=============================================================================
+# Target rules for targets named cptr
+
+# Build rule for target.
+cptr: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cptr
+.PHONY : cptr
+
+# fast build rule for target.
+cptr/fast:
+	$(MAKE) -f CMakeFiles/cptr.dir/build.make CMakeFiles/cptr.dir/build
+.PHONY : cptr/fast
+
+#=============================================================================
 # Target rules for targets named client_echo
 
 # Build rule for target.
@@ -189,17 +189,43 @@ client_echo/fast:
 .PHONY : client_echo/fast
 
 #=============================================================================
-# Target rules for targets named server_echo
+# Target rules for targets named atomic
 
 # Build rule for target.
-server_echo: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 server_echo
-.PHONY : server_echo
+atomic: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 atomic
+.PHONY : atomic
 
 # fast build rule for target.
-server_echo/fast:
-	$(MAKE) -f CMakeFiles/server_echo.dir/build.make CMakeFiles/server_echo.dir/build
-.PHONY : server_echo/fast
+atomic/fast:
+	$(MAKE) -f CMakeFiles/atomic.dir/build.make CMakeFiles/atomic.dir/build
+.PHONY : atomic/fast
+
+#=============================================================================
+# Target rules for targets named lock
+
+# Build rule for target.
+lock: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lock
+.PHONY : lock
+
+# fast build rule for target.
+lock/fast:
+	$(MAKE) -f CMakeFiles/lock.dir/build.make CMakeFiles/lock.dir/build
+.PHONY : lock/fast
+
+#=============================================================================
+# Target rules for targets named linear
+
+# Build rule for target.
+linear: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 linear
+.PHONY : linear
+
+# fast build rule for target.
+linear/fast:
+	$(MAKE) -f CMakeFiles/linear.dir/build.make CMakeFiles/linear.dir/build
+.PHONY : linear/fast
 
 # target to build an object file
 atomic.o:
@@ -262,6 +288,21 @@ func_ptr.s:
 .PHONY : func_ptr.s
 
 # target to build an object file
+linear.o:
+	$(MAKE) -f CMakeFiles/linear.dir/build.make CMakeFiles/linear.dir/linear.o
+.PHONY : linear.o
+
+# target to preprocess a source file
+linear.i:
+	$(MAKE) -f CMakeFiles/linear.dir/build.make CMakeFiles/linear.dir/linear.i
+.PHONY : linear.i
+
+# target to generate assembly for a file
+linear.s:
+	$(MAKE) -f CMakeFiles/linear.dir/build.make CMakeFiles/linear.dir/linear.s
+.PHONY : linear.s
+
+# target to build an object file
 lock.o:
 	$(MAKE) -f CMakeFiles/lock.dir/build.make CMakeFiles/lock.dir/lock.o
 .PHONY : lock.o
@@ -306,6 +347,21 @@ timer_asio.s:
 	$(MAKE) -f CMakeFiles/timer.dir/build.make CMakeFiles/timer.dir/timer_asio.s
 .PHONY : timer_asio.s
 
+# target to build an object file
+timer_asio2.o:
+	$(MAKE) -f CMakeFiles/ntimer.dir/build.make CMakeFiles/ntimer.dir/timer_asio2.o
+.PHONY : timer_asio2.o
+
+# target to preprocess a source file
+timer_asio2.i:
+	$(MAKE) -f CMakeFiles/ntimer.dir/build.make CMakeFiles/ntimer.dir/timer_asio2.i
+.PHONY : timer_asio2.i
+
+# target to generate assembly for a file
+timer_asio2.s:
+	$(MAKE) -f CMakeFiles/ntimer.dir/build.make CMakeFiles/ntimer.dir/timer_asio2.s
+.PHONY : timer_asio2.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -313,14 +369,16 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... lock"
-	@echo "... rebuild_cache"
-	@echo "... atomic"
-	@echo "... cptr"
-	@echo "... timer"
-	@echo "... prac"
-	@echo "... client_echo"
 	@echo "... server_echo"
+	@echo "... prac"
+	@echo "... ntimer"
+	@echo "... timer"
+	@echo "... cptr"
+	@echo "... client_echo"
+	@echo "... atomic"
+	@echo "... rebuild_cache"
+	@echo "... lock"
+	@echo "... linear"
 	@echo "... atomic.o"
 	@echo "... atomic.i"
 	@echo "... atomic.s"
@@ -333,6 +391,9 @@ help:
 	@echo "... func_ptr.o"
 	@echo "... func_ptr.i"
 	@echo "... func_ptr.s"
+	@echo "... linear.o"
+	@echo "... linear.i"
+	@echo "... linear.s"
 	@echo "... lock.o"
 	@echo "... lock.i"
 	@echo "... lock.s"
@@ -342,6 +403,9 @@ help:
 	@echo "... timer_asio.o"
 	@echo "... timer_asio.i"
 	@echo "... timer_asio.s"
+	@echo "... timer_asio2.o"
+	@echo "... timer_asio2.i"
+	@echo "... timer_asio2.s"
 .PHONY : help
 
 

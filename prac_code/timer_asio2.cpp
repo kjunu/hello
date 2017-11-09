@@ -1,5 +1,6 @@
 #include <iostream>
 #include <time.h>
+#include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/thread/thread.hpp>
@@ -20,17 +21,19 @@ static unsigned int cur_time = static_cast<unsigned int>(time(0));
 
 void callback(const boost::system::error_code& ec)
 {
-	TRACE("sleep...5");
-	sleep(5);
-	TRACE("good morning! after 5");
+	TRACE("callback sleep...1");
+	sleep(1);
+	TRACE("good morning! after 1");
 }
 class testman
 	: public boost::enable_shared_from_this<testman>
 {
 public:
 	std::string name;
+	boost::asio::io_service io;
+	boost::shared_ptr<boost::asio::io_service::work> work_ptr;
 	testman(){
-		name = "static jw";
+		testman("static jw");
 	}
 	testman(const std::string& n){
 		name = n;
@@ -38,40 +41,34 @@ public:
 	}
 	static void postcallback()
 	{
-		TRACE("sleep...3");
-		sleep(3);
-		TRACE("good morning! after 3");
+		TRACE("postcallback()");
+		sleep(1);
+		TRACE("hello! after 1");
 	}
 	int test_asio()
 	{
 		TRACE("start");
-
-		boost::asio::io_service io;
-
-		//boost::asio::deadline_timer t(io, boost::posix_time::seconds(3));
+		work_ptr.reset(new boost::asio::io_service::work(io));
+		boost::thread thread1(boost::bind(&boost::asio::io_service::run, &io));
+		boost::thread thread2(boost::bind(&boost::asio::io_service::run, &io));
 		boost::asio::deadline_timer t(io);//, boost::posix_time::seconds(2));
-		//boost::asio::deadline_timer t2(io);//, boost::posix_time::seconds(2));
+		boost::asio::deadline_timer t2(io);//, boost::posix_time::seconds(2));
 		//boost::asio::steady_timer t(io);
-		t.expires_from_now(boost::posix_time::seconds(3));
 		t.expires_from_now(boost::posix_time::seconds(1));
-		t.expires_from_now(boost::posix_time::seconds(2));
-		//t2.expires_from_now(boost::posix_time::seconds(2));
 		TRACE("set timer 1");
+		t2.expires_from_now(boost::posix_time::seconds(1));
 		TRACE("set timer 2");
 		t.async_wait(&callback);
-		t.async_wait(&callback);
-		t.async_wait(&callback);
-		//t2.async_wait(&callback);
-		boost::thread thread1(boost::bind(&boost::asio::io_service::run, &io));
+		t2.async_wait(&callback);
 		//boost::thread thread2(boost::bind(&boost::asio::io_service::run, &io));
-		//io.run();
 		//testman jw("jw");
-		sleep(1);
-		TRACE("set post");
+		TRACE("test main sleep 4 from now");
 		//io.post(&testman::postcallback);
+		sleep(4);
+		work_ptr.reset();
 		thread1.join();
-		//thread2.join();
-		TRACE("end");
+		thread2.join();
+		TRACE("test main end");
 	}
 };
 

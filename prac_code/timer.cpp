@@ -29,6 +29,8 @@ class testman
 {
 public:
 	std::string name;
+	boost::chrono::duration<double> duration;
+
 	testman(){
 		name = "static jw";
 	}
