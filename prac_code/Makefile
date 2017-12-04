@@ -215,6 +215,19 @@ lock/fast:
 .PHONY : lock/fast
 
 #=============================================================================
+# Target rules for targets named sptr
+
+# Build rule for target.
+sptr: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sptr
+.PHONY : sptr
+
+# fast build rule for target.
+sptr/fast:
+	$(MAKE) -f CMakeFiles/sptr.dir/build.make CMakeFiles/sptr.dir/build
+.PHONY : sptr/fast
+
+#=============================================================================
 # Target rules for targets named linear
 
 # Build rule for target.
@@ -333,6 +346,21 @@ server.s:
 .PHONY : server.s
 
 # target to build an object file
+sptr.o:
+	$(MAKE) -f CMakeFiles/sptr.dir/build.make CMakeFiles/sptr.dir/sptr.o
+.PHONY : sptr.o
+
+# target to preprocess a source file
+sptr.i:
+	$(MAKE) -f CMakeFiles/sptr.dir/build.make CMakeFiles/sptr.dir/sptr.i
+.PHONY : sptr.i
+
+# target to generate assembly for a file
+sptr.s:
+	$(MAKE) -f CMakeFiles/sptr.dir/build.make CMakeFiles/sptr.dir/sptr.s
+.PHONY : sptr.s
+
+# target to build an object file
 timer_asio.o:
 	$(MAKE) -f CMakeFiles/timer.dir/build.make CMakeFiles/timer.dir/timer_asio.o
 .PHONY : timer_asio.o
@@ -369,6 +397,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... rebuild_cache"
 	@echo "... server_echo"
 	@echo "... prac"
 	@echo "... ntimer"
@@ -376,8 +405,8 @@ help:
 	@echo "... cptr"
 	@echo "... client_echo"
 	@echo "... atomic"
-	@echo "... rebuild_cache"
 	@echo "... lock"
+	@echo "... sptr"
 	@echo "... linear"
 	@echo "... atomic.o"
 	@echo "... atomic.i"
@@ -400,6 +429,9 @@ help:
 	@echo "... server.o"
 	@echo "... server.i"
 	@echo "... server.s"
+	@echo "... sptr.o"
+	@echo "... sptr.i"
+	@echo "... sptr.s"
 	@echo "... timer_asio.o"
 	@echo "... timer_asio.i"
 	@echo "... timer_asio.s"
