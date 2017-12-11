@@ -42,6 +42,12 @@ void display_function(Test &ptr)
 	ptr.console_out();
 }
 
+void main_test()
+{
+	boost::shared_ptr<Test> s_ptr(new Test(200));
+	
+}
+
 int main()
 {
 	boost::shared_ptr<Test> s_ptr(new Test(100));
