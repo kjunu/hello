@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jwkim/hello/prac_code
+CMAKE_SOURCE_DIR = /home/u/hello/prac_code
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jwkim/hello/prac_code
+CMAKE_BINARY_DIR = /home/u/hello/prac_code
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jwkim/hello/prac_code/CMakeFiles /home/jwkim/hello/prac_code/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u/hello/prac_code/CMakeFiles /home/u/hello/prac_code/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jwkim/hello/prac_code/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u/hello/prac_code/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -109,6 +109,19 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named bind
+
+# Build rule for target.
+bind: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bind
+.PHONY : bind
+
+# fast build rule for target.
+bind/fast:
+	$(MAKE) -f CMakeFiles/bind.dir/build.make CMakeFiles/bind.dir/build
+.PHONY : bind/fast
 
 #=============================================================================
 # Target rules for targets named server_echo
@@ -256,6 +269,21 @@ atomic.s:
 .PHONY : atomic.s
 
 # target to build an object file
+bind.o:
+	$(MAKE) -f CMakeFiles/bind.dir/build.make CMakeFiles/bind.dir/bind.o
+.PHONY : bind.o
+
+# target to preprocess a source file
+bind.i:
+	$(MAKE) -f CMakeFiles/bind.dir/build.make CMakeFiles/bind.dir/bind.i
+.PHONY : bind.i
+
+# target to generate assembly for a file
+bind.s:
+	$(MAKE) -f CMakeFiles/bind.dir/build.make CMakeFiles/bind.dir/bind.s
+.PHONY : bind.s
+
+# target to build an object file
 client.o:
 	$(MAKE) -f CMakeFiles/client_echo.dir/build.make CMakeFiles/client_echo.dir/client.o
 .PHONY : client.o
@@ -398,6 +426,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... bind"
 	@echo "... server_echo"
 	@echo "... prac"
 	@echo "... ntimer"
@@ -411,6 +440,9 @@ help:
 	@echo "... atomic.o"
 	@echo "... atomic.i"
 	@echo "... atomic.s"
+	@echo "... bind.o"
+	@echo "... bind.i"
+	@echo "... bind.s"
 	@echo "... client.o"
 	@echo "... client.i"
 	@echo "... client.s"

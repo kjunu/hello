@@ -17,7 +17,7 @@ class Stock:
         businesshours_min_count = 390 #6.5 * 60	
        
         #it's only working well for minite interval
-        def get_bong_by_yahoo(self, interval, stockno):
+        def get_bong_by_yahoo(self, interval, stockno, fromdate=0):
             get_bong_url = 'https://query1.finance.yahoo.com/v8/finance/chart/'
             #'207940.KS
             #?symbol=207940.KS
@@ -33,7 +33,12 @@ class Stock:
             get_bong_url += (stockno)
             get_bong_url += ('?symbol='+stockno)
             curr_time = calendar.timegm(time.gmtime())
-            get_bong_url += ('&period1='+str(curr_time - self.daysec*7))
+
+            if fromdate == 0:
+                get_bong_url += ('&period1='+str(curr_time - self.daysec*7))
+            else:
+                get_bong_url += ('&period1='+str(fromdate))
+
             get_bong_url += ('&period2='+str(curr_time))
             get_bong_url += ('&interval='+interval)
             get_bong_url += ('&includePrePost=true')
@@ -45,7 +50,9 @@ class Stock:
 
             headers = {'Connection': 'keep-alive',}
             #debug
-            print(get_bong_url)
+            with open('logic_error','a') as the_file:
+                the_file.write(get_bong_url+'\n')
+                #print(get_bong_url)
             
             response = (requests.get(get_bong_url, headers=headers))
 	    json_data = json.loads(response.content)
@@ -59,7 +66,7 @@ class Stock:
             #print(stockno + ' timestamp size:'+str(len(json_data['chart']['result'][0]['timestamp'])))
             #print(stockno + ' open size:'+str(len(json_data['chart']['result'][0]['indicators']['quote'][0]['open'])))
             #print(json_data['chart']['result'][0])
-            return (json_data['chart']['result'])
+            return (json_data['chart']['result'][0])
         
         def get_il_bong_by_naver(self, stockno):
             get_il_bong_url = 'http://finance.naver.com/item/sise_day.nhn?code='+stockno 
@@ -106,22 +113,25 @@ class Stock:
             return result 
             
 
+        market_dict = {"kosdaq":{"yahoo":".KQ", "krx":"kosdaqMkt", "naver":""}}
         def get_list(self, market_name='kosdaq', source_site='naver'):
-            market_dict = {"kosdaq":{"yahoo":".KQ", "krx":"kosdaqMkt", "naver":""}}
             krx_url = 'http://kind.krx.co.kr/corpgeneral/corpList.do?method=download'
-            krx_url = krx_url+'&searchType=13&marketType='+market_dict[market_name]['krx']
+            krx_url = krx_url+'&searchType=13&marketType='+self.market_dict[market_name]['krx']
             #debug
             #print(krx_url) 
             df = pd.read_html(krx_url, header=0)[0]
 
             code_list = []
             for index, row in df.iterrows():
-                code_list.append(str(row['종목코드']).zfill(6) + market_dict[market_name][source_site])
+                code_list.append(str(row['종목코드']).zfill(6) + self.market_dict[market_name][source_site])
             
             #debug
             #print(len(code_list))
             
             return code_list
+        def convert_code(self, code, market_name, source_site, target_site):
+            return code.replace(self.market_dict[market_name][source_site],'') + \
+                    self.market_dict[market_name][target_site]
 
 
 #start_time = time.time()

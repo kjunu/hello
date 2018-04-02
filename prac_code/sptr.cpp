@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <tuple>
 #include <boost/thread/thread.hpp>
 
 #include <sys/syscall.h>
@@ -25,12 +26,16 @@ public:
 	void set_name(std::string name)
 	{
 		name_ = name;
+		triple_ = std::make_tuple(1,2,3);
+		std::cout << "triple:" << &triple_ << std::endl;
 	}
 	std::string get_name()
 	{
+		std::cout << "triple:" << &triple_ << std::endl;
 		return name_;
 	}
 private:
+	std::tuple<int, int, int> triple_;
 	std::string name_;
 };
 
@@ -44,6 +49,7 @@ void do_something(std::shared_ptr<human> h)
 {
 	sleep(5);
 	//std::cout << "do_something with share_ptr during 5 : name = " << h->get_name() << std::endl;
+	h->set_name(h->get_name() + ":after do_something");	
 	TRACE("do with shared_ptr 5 : name = " + h->get_name());
 }
 
