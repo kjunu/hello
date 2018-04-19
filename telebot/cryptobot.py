@@ -237,10 +237,10 @@ try:
         upbit.check_notice_req()
         upbit.all_status_check(True)
 	while 1:
-		t1 = threading.Thread(target=bol_check)
+		#t1 = threading.Thread(target=bol_check)
 		#t1 = threading.Thread(target=upbit_all_status_check)
-		t1.start()
-		time.sleep(sleep_time/3)
+		#t1.start()
+		#time.sleep(sleep_time/3)
 		t2 = threading.Thread(target=noti_check)
 		t2.start()
 		time.sleep(sleep_time/3)

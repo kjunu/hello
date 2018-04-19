@@ -6,6 +6,9 @@ import json
 from merge_string_list import merge_string_list
 from bs4 import BeautifulSoup
 from lxml import html
+from selenium import webdriver
+
+import os.path
 
 import pandas as pd
 import sys
@@ -79,9 +82,9 @@ class Stock:
             #high_price = soup.select('body > table.type2 > tbody > tr > td:nth-child(5) > span')
             #low_price = soup.select('body > table.type2 > tbody > tr > td:nth-child(6) > span')
             #volume_price = soup.select('body > table.type2 > tbody > tr > td:nth-child(7) > span')
-            
+
             tree = html.fromstring(response.text)
-            
+
             result = {"date":[], "close":[], "open":[], "high":[], "low":[], "volume":[]}
 
             for date in tree.xpath('/html/body/table[1]/tr/td[1]/span'):
@@ -112,27 +115,78 @@ class Stock:
 
             return result 
             
-
         market_dict = {"kosdaq":{"yahoo":".KQ", "krx":"kosdaqMkt", "naver":""}}
         def get_list(self, market_name='kosdaq', source_site='naver'):
+            cache_file_name =  market_name+source_site+time.strftime('%d_%m_%Y')
+            print(cache_file_name)
+            code_list = []
+            if os.path.isfile(cache_file_name):
+                print('cache_exist')
+                with open(cache_file_name, "r") as f:
+                  for line in f:
+                      code_list.append(str(line.strip()))
+                return code_list
+
             krx_url = 'http://kind.krx.co.kr/corpgeneral/corpList.do?method=download'
             krx_url = krx_url+'&searchType=13&marketType='+self.market_dict[market_name]['krx']
             #debug
             #print(krx_url) 
             df = pd.read_html(krx_url, header=0)[0]
 
-            code_list = []
             for index, row in df.iterrows():
                 code_list.append(str(row['종목코드']).zfill(6) + self.market_dict[market_name][source_site])
             
             #debug
             #print(len(code_list))
-            
+            with open(cache_file_name, "w") as f:
+                for c in code_list:
+                    f.write(str(c) +"\n")
             return code_list
+
         def convert_code(self, code, market_name, source_site, target_site):
             return code.replace(self.market_dict[market_name][source_site],'') + \
                     self.market_dict[market_name][target_site]
 
+        def get_co_info_by_naver(self, stockno):
+            get_co_info_url = 'http://finance.naver.com/item/sise.nhn?code='+stockno
+            #get_co_info_url = 'http://wisefn.stock.daum.net/company/c1010001.aspx?cmp_cd=' \
+            #                    + stockno + '&frq=&rpt='
+            #get_co_info_url = 'http://m.stock.naver.com/item/main.nhn#/stocks/066570/total'
+            #headers = {'Connection': 'keep-alive',}
+            #response = (requests.get(get_co_info_url, headers=headers))
+
+            #tree = html.fromstring(response.text)
+            client =  webdriver.PhantomJS()
+            #client =  webdriver.Firefox()
+            client.get(get_co_info_url)
+            tree = html.fromstring(client.page_source)
+            #print(get_co_info_url)
+            #print(client.page_source)
+
+            result = {"per":[], "roe":[]}
+            for data in tree.xpath('//*[@id="_per"]'):
+            #for data in tree.xpath('//*[@id="aside"]'):
+                print(html.tostring(data, method='html', with_tail=False))
+                result['per'].append(data.text.replace(',','').strip())
+
+            return result
+
+        def get_co_info_by_wisefn(self, stockno):
+            get_co_info_url = 'http://wisefn.stock.daum.net/company/c1010001.aspx?cmp_cd=' \
+                                + stockno + '&frq=&rpt='
+            headers = {'Connection': 'keep-alive',}
+            response = (requests.get(get_co_info_url, headers=headers))
+
+            tree = html.fromstring(response.text)
+            print(get_co_info_url)
+
+            result = {"per":"", "roe":""}
+            for data in tree.xpath('//*[@id="cTB15"]/tr[2]/td[4]'):
+            #for data in tree.xpath('//*[@id="aside"]'):
+                #print(html.tostring(data, method='html', with_tail=False))
+                result['per'] = data.text.replace(',','').strip()
+
+            return result
 
 #start_time = time.time()
 #for code in Stock().get_list('kosdaq', 'yahoo'):
