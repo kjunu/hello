@@ -15,6 +15,7 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/fedesog/webdriver v0.0.0-20180606182539-99f36c92eaef // indirect
 	github.com/keegancsmith/rpc v1.3.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stamblerre/gocode v1.0.0 // indirect
