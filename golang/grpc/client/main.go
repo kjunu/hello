@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net"
 	"os"
 	"time"
 
@@ -12,13 +13,16 @@ import (
 )
 
 const (
-	address     = "localhost:50051"
+	address     = "/tmp/hello.sock" //"localhost:50051"
 	defaultName = "world"
 )
 
 func main() {
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	dialer := func(addr string, t time.Duration) (net.Conn, error) {
+		return net.Dial("unix", address)
+	}
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithDialer(dialer))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
