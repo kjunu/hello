@@ -10,11 +10,8 @@ pub trait Consume {
 }
 
 impl Animal {
-    pub fn new() -> Animal {
-        Animal {
-            food: String::from("food"),
-            drink: String::from("drink"),
-        }
+    pub fn new(food: String, drink: String) -> Animal {
+        Animal { food, drink }
     }
     fn eat(&self) {
         println!("animal eat {:?}", self.food)
