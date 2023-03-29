@@ -15,7 +15,8 @@ import (
 )
 
 const (
-	port = "192.168.0.177:50051"
+	port    = "192.168.0.177:50051"
+	address = "/tmp/hello.sock"
 )
 
 // server is used to implement helloworld.GreeterServer.
@@ -36,7 +37,7 @@ func main() {
 	secRPC = 0
 	totalRPC = 0
 	go printRPC()
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("unix", address)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
